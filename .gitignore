@@ -1,0 +1,10 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+instance/
+*.sqlite
+.vscode/
+.idea/
+desktop.ini
+Thumbs.db

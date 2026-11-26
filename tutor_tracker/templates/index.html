@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Students</h1>
+{% if students %}
+<table>
+  <thead><tr><th>Name</th><th>Year</th><th>Subject</th><th>Topics tracked</th><th>Needs work</th></tr></thead>
+  <tbody>
+  {% for s in students %}
+    <tr>
+      <td><a href="{{ url_for('student', student_id=s.row.id) }}">{{ s.row.name }}</a></td>
+      <td>{{ s.row.year_group }}</td>
+      <td>{{ s.row.subject }}</td>
+      <td>{{ s.topics }}</td>
+      <td>{% for t in s.weak %}<span class="tag weak">{{ t }}</span>{% else %}<span class="muted">Nothing flagged</span>{% endfor %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="muted">No students yet. Add one below, or run <code>python seed.py</code> for demo data.</p>
+{% endif %}
+
+<h2>Add a student</h2>
+<form method="post" action="{{ url_for('create_student') }}" class="inline">
+  <label>Name <input name="name" required></label>
+  <label>Year group <input name="year_group" placeholder="Year 11"></label>
+  <label>Subject
+    <select name="subject">{% for sub in subjects %}<option>{{ sub }}</option>{% endfor %}</select>
+  </label>
+  <label>Target % <input name="target" type="number" min="0" max="100" value="70"></label>
+  <button>Add</button>
+</form>
+{% endblock %}

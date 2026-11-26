@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Practice set · {{ s.name }}{% endblock %}
+{% block content %}
+<p class="no-print"><a href="{{ url_for('student', student_id=s.id) }}">← Back to {{ s.name }}</a></p>
+<h1>Practice set for {{ s.name }}</h1>
+<p class="muted">{{ size }} questions, weighted towards
+  {% if weak %}{{ weak|join(', ') }}{% else %}the lowest-scoring topics{% endif %},
+  with difficulty matched to recent scores on each topic.</p>
+
+{% if questions %}
+<ol class="questions">
+  {% for q in questions %}
+  <li><p>{{ q.question }}</p><span class="tag">{{ q.topic }}</span> <span class="tag {{ q.difficulty }}">{{ q.difficulty }}</span></li>
+  {% endfor %}
+</ol>
+<p class="no-print"><button onclick="window.print()">Print</button>
+  <a class="button" href="{{ url_for('practice', student_id=s.id, size=size) }}">Shuffle</a></p>
+{% else %}
+<p class="muted">Record some scores first so the tracker knows what to focus on.</p>
+{% endif %}
+{% endblock %}
